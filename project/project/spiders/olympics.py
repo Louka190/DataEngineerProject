@@ -17,16 +17,13 @@ class OlympicsSpider(scrapy.Spider):
         Scraper les données du tableau et les enregistrer dans un fichier JSON.
         """
 
-        # Extraire les en-têtes du tableau et supprimer les espaces inutiles
         headers = response.css('table.table-striped thead th::text').getall()[0:7]
-        headers = [header.strip() for header in headers if header.strip()]
 
         # Vérifier si le <tbody> existe dans la page
-        tbody = response.css('tbody')  # Récupère le corps du tableau, pas le texte
-
+        tbody = response.css('table.table-striped tr')
         if not tbody:
             self.log("Le <tbody> n'a pas été trouvé.")
-            #return  # Arrêter l'exécution si <tbody> n'est pas trouvé
+            return  
 
         # Sélecteur pour les lignes du tableau dans le <tbody>
         rows = tbody.css('tr')
@@ -35,7 +32,7 @@ class OlympicsSpider(scrapy.Spider):
         table_data = []
 
         for row in rows:
-            # Initialiser un item pour structurer les données
+
             item = ArticletItem()
 
             # Extraction des données de chaque colonne
@@ -47,8 +44,9 @@ class OlympicsSpider(scrapy.Spider):
             item['Final'] = row.css('td:nth-of-type(6)::text').get(default="N/A").strip()
             item['Medal'] = row.css('td:nth-of-type(7) span::text').get(default="N/A").strip()
 
-            # Ajouter l'item sous forme de dictionnaire à la liste
             table_data.append(dict(item))
+
+        table_data = table_data[1:71]
 
         # Créer une structure JSON avec les en-têtes et les lignes de données
         results = {
