@@ -1,0 +1,16 @@
+#version: '3.8'
+
+services:
+  scraper:
+    build:
+      context: .  # Utiliser le Dockerfile à la racine
+    container_name: scraper
+    command: ["bash", "-c", "scrapy crawl olympics"]  # Commande par défaut
+    volumes:
+      - .:/app  # Monter le répertoire dans le conteneur
+      - ./project/output:/app/project/output  # Monter le répertoire de sortie
+    working_dir: /app/project  # Répertoire de travail dans le conteneur
+    environment:
+      - SCRAPY_SETTINGS_MODULE=project.settings  # Chemin des paramètres Scrapy
+      - PYTHONPATH=/app/project  # Ajouter le chemin au PYTHONPATH
+    platform: linux/amd64
