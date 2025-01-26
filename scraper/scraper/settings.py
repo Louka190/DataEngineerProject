@@ -7,10 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "project"
+BOT_NAME = "scraper"
 
-SPIDER_MODULES = ["project.spiders"]
-NEWSPIDER_MODULE = "project.spiders"
+SPIDER_MODULES = ["scraper.spiders"]
+NEWSPIDER_MODULE = "scraper.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "project.pipelines.OlympicsPipeline": 300,
+    "scraper.pipelines.SpotifyPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -88,8 +88,8 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
 # Exporter les données scrappées dans un fichier JSON
-FEED_FORMAT = "json"
-FEED_URI = "file:///app/project/output/olympics_results.json"
+FEED_FORMAT = "csv"
+#FEED_URI = "file:../output/spotify_results.csv"
 
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
