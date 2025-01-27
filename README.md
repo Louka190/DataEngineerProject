@@ -5,6 +5,5 @@ https://kworb.net/spotify/
 
 Phase Intermédiaire : 
 
-- Lancer les spiders 'spotify' et 'countries' pour avoir deux fichiers csv en output
-- le fichier spotify contient des doublons qui seront supprimés via de la manipulation Pandas
+- Lancer les spiders 'spotify' , 'countries' et 'listeners' pour avoir 3 fichiers csv en output
 - ne pas supprimer le dossier html

@@ -27,3 +27,10 @@ class CountryItem(scrapy.Item):
     Artist_and_Title = scrapy.Field()
     Streams = scrapy.Field()
     Total = scrapy.Field()
+
+class ListenerItem(scrapy.Item):
+    Artist = scrapy.Field()
+    Listeners = scrapy.Field()
+    #Daily_Trend = scrapy.Field()
+    Peak = scrapy.Field()
+    Peak_Listeners = scrapy.Field()

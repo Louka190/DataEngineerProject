@@ -3,12 +3,9 @@ from ..items import SpotifyItem
 
 
 class ArtistsSpider(scrapy.Spider):
+    
     name = "artists"
-
-    # Domaine autorisé pour éviter de scraper des sites non spécifiés
     allowed_domains = ["kworb.net"]
-
-    # URL de départ pour le scraping
     start_urls = ["https://kworb.net/spotify/artists.html"]
 
     def parse(self, response):
@@ -40,10 +37,10 @@ class ArtistsSpider(scrapy.Spider):
                 yield scrapy.Request(artist_url, callback=self.parse_artist)
 
             # Extraire aussi les autres informations du tableau
-            item = SpotifyItem()
-            item['Artist'] = row.css('td.text a::text').get()
+            #item = SpotifyItem()
+            #item['Artist'] = row.css('td.text a::text').get()
             
-            yield item
+            #yield item
 
     def parse_artist(self, response):
         item = SpotifyItem()
