@@ -7,6 +7,9 @@ import scrapy
 
 
 class SpotifyItem(scrapy.Item):
+    """
+    Item pour stocker les informations de streaming d'un artiste.
+    """
     Artist = scrapy.Field()
     Total_Streams = scrapy.Field()
     As_Lead = scrapy.Field()
@@ -22,6 +25,9 @@ class SpotifyItem(scrapy.Item):
     Tracks_As_Feature = scrapy.Field()
 
 class CountryItem(scrapy.Item):
+    """
+    Item pour stocker les informations des chansons d'un pays.
+    """
     Country = scrapy.Field()
     Pos = scrapy.Field()
     Artist_and_Title = scrapy.Field()
@@ -29,6 +35,9 @@ class CountryItem(scrapy.Item):
     Total = scrapy.Field()
 
 class ListenerItem(scrapy.Item):
+    """
+    Item pour stocker les informations des auditeurs d'un artiste.
+    """
     Artist = scrapy.Field()
     Listeners = scrapy.Field()
     #Daily_Trend = scrapy.Field()

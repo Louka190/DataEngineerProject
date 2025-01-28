@@ -5,5 +5,8 @@ https://kworb.net/spotify/
 
 Phase Intermédiaire : 
 
-- Lancer les spiders 'spotify' , 'countries' et 'listeners' pour avoir 3 fichiers csv en output
-- ne pas supprimer le dossier html
+- Démarrer Docker Desktop 
+- docker compose build
+- docker compose up -d 
+
+Les données sont stockées dans output 

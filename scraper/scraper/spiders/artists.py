@@ -13,7 +13,8 @@ class ArtistsSpider(scrapy.Spider):
         Méthode principale pour traiter la réponse de la page web.
         Cette méthode extrait les données du tableau et génère des liens vers les pages des artistes.
 
-        :param response: L'objet réponse de Scrapy contenant le contenu de la page web.
+        Args:
+            response (scrapy.http.Response): L'objet réponse de Scrapy contenant le contenu de la page web.
         """
         # Extraction des lignes du tableau
         tbody = response.css('table.addpos tbody tr')
@@ -43,6 +44,15 @@ class ArtistsSpider(scrapy.Spider):
             #yield item
 
     def parse_artist(self, response):
+        """
+        Analyse la page d'un artiste pour extraire les informations de streaming.
+
+        Args:
+            response (scrapy.http.Response): La réponse de la requête vers la page de l'artiste.
+
+        Yields:
+            SpotifyItem: Un item contenant les informations de streaming pour un artiste donné.
+        """        
         item = SpotifyItem()
         item['Artist'] = response.css('span.pagetitle::text').get().split(' - ')[0]
         item['Total_Streams'] = response.css('tr:contains("Streams") td:nth-child(2)::text').get()

@@ -8,8 +8,13 @@ class CountriesSpider(scrapy.Spider):
 
     def parse(self, response):
         """
-        Méthode principale pour traiter la réponse de la page web.
-        Cette méthode extrait les noms des pays du tableau.
+        Analyse la page principale pour extraire les noms des pays et leurs URLs associées.
+        
+        Args:
+            response (scrapy.http.Response): La réponse de la requête initiale.
+        
+        Yields:
+            scrapy.Request: Une requête vers la page du pays avec un callback vers parse_country.
         """
         rows = response.css('table tr')
 
@@ -34,8 +39,13 @@ class CountriesSpider(scrapy.Spider):
     
     def parse_country(self, response):
         """
-        Méthode pour traiter la réponse de la page web d'un pays.
-        Cette méthode extrait les détails des artistes et des titres.
+        Analyse la page d'un pays pour extraire les informations des chansons.
+        
+        Args:
+            response (scrapy.http.Response): La réponse de la requête vers la page du pays.
+        
+        Yields:
+            CountryItem: Un item contenant les informations des chansons pour un pays donné.
         """
         item = response.meta['item']
         

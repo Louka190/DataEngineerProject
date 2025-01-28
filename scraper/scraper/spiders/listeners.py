@@ -10,9 +10,10 @@ class ListenersSpider(scrapy.Spider):
     def parse(self, response):
         """
         Méthode principale pour traiter la réponse de la page web.
-        Cette méthode extrait les données du tableau et génère des liens vers les pages des artistes.
+        Cette méthode extrait les données du tableau des auditeurs.
 
-        :param response: L'objet réponse de Scrapy contenant le contenu de la page web.
+        Args:
+            response (scrapy.http.Response): L'objet réponse de Scrapy contenant le contenu de la page web.
         """
         # Extraction des lignes du tableau
         tbody = response.css('table.addpos tbody tr')
@@ -25,7 +26,6 @@ class ListenersSpider(scrapy.Spider):
 
         # Parcourir chaque ligne pour extraire les données
         for row in rows:
-
             # Extraire aussi les autres informations du tableau
             item = ListenerItem()
             item['Artist'] = row.css('td.text a::text').get()

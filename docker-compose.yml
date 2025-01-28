@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  artists_spider:
+    build:
+      context: .
+      dockerfile: scraper/Dockerfile
+    command: sh -c "cd /app/scraper && pipenv run scrapy crawl artists -s SCRAPY_SETTINGS_MODULE=scraper.settings"
+    volumes:
+      - ./scraper/output:/app/output
+
+  countries_spider:
+    build:
+      context: .
+      dockerfile: scraper/Dockerfile
+    command: sh -c "cd /app/scraper && pipenv run scrapy crawl countries -s SCRAPY_SETTINGS_MODULE=scraper.settings"
+    volumes:
+      - ./scraper/output:/app/output
+
+  listeners_spider:
+    build:
+      context: .
+      dockerfile: scraper/Dockerfile
+    command: sh -c "cd /app/scraper && pipenv run scrapy crawl listeners -s SCRAPY_SETTINGS_MODULE=scraper.settings"
+    volumes:
+      - ./scraper/output:/app/output
