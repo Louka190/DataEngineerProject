@@ -35,7 +35,7 @@ class SpotifyPipeline:
 
     def process_item(self, item, spider):
         if spider.name == "artists":
-            self.writer.writerow([item.get('Artist'), item.get('Total_Streams'), item.get('As_Lead'), item.get('Solo'), item.get('As_Feature'), item.get('Daily_Streams'), item.get('Daily_As_Lead'), item.get('Daily_Solo'), item.get('Daily_As_Feature'), item.get('Tracks'), item.get('Tracks_As_Lead'), item.get('Tracks_Solo'), item.get('Tracks_As_Feature')])
+            self.writer.writerow([item.get('Artist'), item.get('Total_Streams'), item.get('As_Lead'), item.get('Solo'), item.get('As_Feature'), item.get('Daily_Streams'), item.get('Daily_As_Lead'), item.get('Daily_As_Feature'), item.get('Tracks'), item.get('Tracks_As_Lead'), item.get('Tracks_Solo'), item.get('Tracks_As_Feature')])
             logging.debug(f"Item ajouté : {item}")
             
         elif spider.name == 'countries':

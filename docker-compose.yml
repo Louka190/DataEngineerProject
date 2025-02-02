@@ -1,10 +1,20 @@
 version: '3.8'
 
 services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
   artists_spider:
     build:
       context: .
       dockerfile: scraper/Dockerfile
+    depends_on:
+      - mongodb
     command: sh -c "cd /app/scraper && pipenv run scrapy crawl artists -s SCRAPY_SETTINGS_MODULE=scraper.settings"
     volumes:
       - ./scraper/output:/app/output
@@ -13,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: scraper/Dockerfile
+    depends_on:
+      - mongodb
     command: sh -c "cd /app/scraper && pipenv run scrapy crawl countries -s SCRAPY_SETTINGS_MODULE=scraper.settings"
     volumes:
       - ./scraper/output:/app/output
@@ -21,6 +33,26 @@ services:
     build:
       context: .
       dockerfile: scraper/Dockerfile
+    depends_on:
+      - mongodb
     command: sh -c "cd /app/scraper && pipenv run scrapy crawl listeners -s SCRAPY_SETTINGS_MODULE=scraper.settings"
     volumes:
       - ./scraper/output:/app/output
+
+  mongo_importer:
+    build:
+      context: ./MongoDB
+      dockerfile: Dockerfile 
+    depends_on:
+      - artists_spider
+      - countries_spider
+      - listeners_spider
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - MONGO_DATABASE=scrapy_data
+    volumes:
+      - ./scraper/output:/app/output
+    command: sh -c "sleep 35 && python Mongo.py"  
+
+volumes:
+  mongodb_data:
