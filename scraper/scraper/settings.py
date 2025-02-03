@@ -87,7 +87,6 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
-# Exporter les données scrappées dans un fichier JSON
 FEED_FORMAT = "csv"
 #FEED_URI = "file:../output/spotify_results.csv"
 

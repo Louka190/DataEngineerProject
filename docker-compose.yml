@@ -9,6 +9,26 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+  elastic:
+    image: elasticsearch:8.15.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: kibana:8.15.2
+    container_name: kibana
+    depends_on:
+      - elastic
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elastic:9200
+
   artists_spider:
     build:
       context: .
@@ -53,6 +73,19 @@ services:
     volumes:
       - ./scraper/output:/app/output
     command: sh -c "sleep 35 && python Mongo.py"  
+
+  elastic_importer:
+    build:
+      context: ./ElasticSearch
+      dockerfile: Dockerfile
+    depends_on:
+      - elastic
+      - mongo_importer
+    environment:
+      - ELASTICSEARCH_HOST=http://elastic:9200
+    volumes:
+      - ./scraper/output:/app/output
+    command: sh -c "sleep 40 && python ElasticSearch.py"
 
 volumes:
   mongodb_data:
