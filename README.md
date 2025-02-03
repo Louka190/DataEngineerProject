@@ -1,5 +1,5 @@
 # Scraper Spotify 
---- 
+
 
 ![Description de l'image](assets/spotifylogo.png)
 
@@ -8,7 +8,7 @@ Cette application de web scraping permet d'extraire des données détaillées à
 
 L'application permet de suivre l'évolution des artistes populaires, d'analyser les performances des morceaux à travers le monde et de découvrir les genres musicaux dominants dans différents pays. 
 
-## Objectif 
+### Objectif 
 
 L'objectif principal de ce projet est de créer une application de web scraping pour extraire, analyser et visualiser des données musicales provenant de Spotify via kworb.net.
 
