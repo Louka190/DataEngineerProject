@@ -19,10 +19,24 @@ class TopListsSpider(scrapy.Spider):
         rows = response.css('table tbody tr')
 
         for row in rows:
-            link = row.css('td.text div a::attr(href)').get()
-            if link:
-                full_url = response.urljoin(link)
-                yield scrapy.Request(url=full_url, callback=self.parse_song_page)
+            # Récupérer le titre et l'URL
+            song_title = row.css('td.text div a::text').get()
+            relative_link = row.css('td.text div a::attr(href)').get()
+
+            if song_title and relative_link:
+                # Création de l'item avec le titre
+                item = SongDetailItem()
+                item['Artist_and_Title'] = song_title.strip()
+
+                # Construire l'URL complète
+                full_url = response.urljoin(relative_link)
+
+                # Envoi de la requête vers la page de détail
+                yield scrapy.Request(
+                    url=full_url,
+                    callback=self.parse_song_page,
+                    meta={'item': item}
+                )
 
     def parse_song_page(self, response):
         """
@@ -34,14 +48,15 @@ class TopListsSpider(scrapy.Spider):
         Yields:
             SongDetailItem: Un item contenant les informations des chansons de la page.
         """
+        item = response.meta['item']
+
+        # Extraire les informations de chaque ligne du tableau
         rows = response.css('table.addpos.sortable tbody tr')
 
-        for index, row in enumerate(rows, start=1):
-            item = SongDetailItem()
-            item['Position'] = index  # Position basée sur l'ordre des lignes
-            item['Artist_and_Title'] = row.css('td.text div::text').get()
+        for row in rows:
+            # Ajouter les champs manquants à l'item
+            item['Position'] = row.css('td:nth-child(1)::text').get()
             item['Streams'] = row.css('td:nth-child(2)::text').get()
             item['Daily'] = row.css('td:nth-child(3)::text').get()
 
-            if item['Artist_and_Title'] and item['Streams']:
-                yield item
+            yield item

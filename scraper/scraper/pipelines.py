@@ -29,7 +29,12 @@ class SpotifyPipeline:
             self.file = open('../output/listeners_results.csv', 'w', newline='', encoding='utf-8')
             self.writer = csv.writer(self.file)
             self.writer.writerow(['Artist', 'Listeners', 'Peak', 'Peak_Listeners']) 
-        else:
+        
+        elif spider.name == "toplists":
+            self.file = open('../output/toplists_results.csv', 'w', newline='', encoding='utf-8')
+            self.writer = csv.writer(self.file)
+            self.writer.writerow(['Position', 'Artist_and_Title', 'Streams','Daily']) 
+        else:    
             pass  
 
 
@@ -44,6 +49,10 @@ class SpotifyPipeline:
             
         elif spider.name == 'listeners':
             self.writer.writerow([item.get('Artist'), item.get('Listeners'), item.get('Peak'), item.get('Peak_Listeners')])
+            logging.debug(f"Item ajouté : {item}")
+
+        elif spider.name == 'toplists':
+            self.writer.writerow([item.get('Position'), item.get('Artist_and_Title'), item.get('Streams'), item.get('Daily')])
             logging.debug(f"Item ajouté : {item}")
         return item
 

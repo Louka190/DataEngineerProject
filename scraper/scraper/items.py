@@ -43,3 +43,9 @@ class ListenerItem(scrapy.Item):
     #Daily_Trend = scrapy.Field()
     Peak = scrapy.Field()
     Peak_Listeners = scrapy.Field()
+
+class SongDetailItem(scrapy.Item):
+    Position = scrapy.Field()
+    Artist_and_Title = scrapy.Field()
+    Streams = scrapy.Field()
+    Daily = scrapy.Field()
