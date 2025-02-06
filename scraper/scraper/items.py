@@ -44,7 +44,12 @@ class ListenerItem(scrapy.Item):
     Peak = scrapy.Field()
     Peak_Listeners = scrapy.Field()
 
-class SongDetailItem(scrapy.Item):
+class SongItem(scrapy.Item):
+    Category = scrapy.Field()
+    Link_Text = scrapy.Field()
+    Relative_Link = scrapy.Field()
+    Absolute_Link = scrapy.Field()
+
     Position = scrapy.Field()
     Artist_and_Title = scrapy.Field()
     Streams = scrapy.Field()
