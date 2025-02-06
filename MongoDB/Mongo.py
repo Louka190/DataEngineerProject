@@ -21,9 +21,13 @@ def import_csv_to_mongo():
         if file.endswith(".csv"):
             file_path = os.path.join(OUTPUT_DIR, file)
             collection_name = file.replace("_results.csv", "") 
+            
+            if collection_name in db.list_collection_names():
+                db.drop_collection(collection_name)
+                print(f"Collection {collection_name} supprimée.")
+                
             df = pd.read_csv(file_path)
 
-            # Insertion des données dans MongoDB
             db[collection_name].insert_many(df.to_dict(orient="records"))
             print(f"Importé {file} dans MongoDB, collection: {collection_name}")
 

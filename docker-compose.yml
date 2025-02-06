@@ -82,7 +82,7 @@ services:
       - MONGO_DATABASE=scrapy_data
     volumes:
       - ./scraper/output:/app/output
-    command: sh -c "sleep 35 && python Mongo.py"
+    command: sh -c "sleep 70 && python Mongo.py"
 
   elastic_importer:
     build:
@@ -95,7 +95,7 @@ services:
       - ELASTICSEARCH_HOST=http://elastic:9200
     volumes:
       - ./scraper/output:/app/output
-    command: sh -c "sleep 40 && python ElasticSearch.py"
+    command: sh -c "sleep 80 && python ElasticSearch.py"
 
 volumes:
   mongodb_data:
