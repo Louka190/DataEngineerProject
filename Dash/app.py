@@ -6,7 +6,7 @@ from src.components.header import create_header
 from src.components.navbar import create_navbar 
 from src.components.footer import create_footer
 
-from pages.countries_dash import layout as countries_layout, register_callbacks
+from src.pages.countries_dash import layout as countries_layout, register_callbacks
 
 # Initialiser l'application Dash
 app = Dash(__name__, suppress_callback_exceptions=True)
