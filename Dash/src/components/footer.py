@@ -1,4 +1,4 @@
-from dash import html 
+from dash import html
 
 def create_footer():
     """
@@ -17,9 +17,12 @@ def create_footer():
         style={
             'backgroundColor': '#343a40',  # Background color of the footer
             'color': '#fff',  # Text color
-            'position': 'relative',  # Positioning the footer
+            'position': 'fixed',  # Fixed position
             'bottom': '0',  # Align to the bottom
+            'left': '0',  # Align to the left
             'width': '100%',  # Full width
             'padding': '10px',  # Padding inside the footer
+            'textAlign': 'center',  # Center the text
+            'zIndex': '100',  # Ensures the footer is above other content
         }
     )

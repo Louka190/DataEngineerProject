@@ -639,11 +639,11 @@
         },
         "narwhals": {
             "hashes": [
-                "sha256:73c595179c95f1ebe87f2f8487b090223cde23409710a0f48a0f987c1f4ff775",
-                "sha256:bce0f713831106dde3c7f66b610a104c9d0b7fba7739e8056f29f0aa831891ea"
+                "sha256:37594746fc06fe4a588967a34a2974b1f3a7ad6ff1571b6e31ac5e58c9591000",
+                "sha256:e645f7fc1f8c0a3563a6cdcd0191586cdf88470ad90f0818abba7ceb6c181b00"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==1.25.0"
+            "version": "==1.25.2"
         },
         "nest-asyncio": {
             "hashes": [
