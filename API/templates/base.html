@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <!-- Inclusion de Bootstrap pour un style rapide -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* On ajoute un peu de marge en bas du main 
+       pour éviter que le contenu ne passe sous le footer fixe */
+    main {
+      margin-bottom: 80px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header avec fond noir -->
+  <header class="p-3" style="background-color: #000;">
+    <div class="container d-flex justify-content-center">
+      <!-- Logo centré, devenu cliquable vers la page d'accueil -->
+      <a href="{{ url_for('home') }}">
+        <img 
+          src="{{ url_for('static', filename='Spotify-Scraper.png') }}" 
+          alt="Logo" 
+          class="img-fluid" 
+          style="max-height: 100px;"
+        >
+      </a>
+    </div>
+  </header>
+  
+  <!-- Navbar claire, texte agrandi -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 1.2rem;">
+    <div class="container">
+      <!-- Onglets répartis sur toute la largeur -->
+      <ul class="navbar-nav nav-justified w-100">
+        {% set icons = {
+          'artists': 'artist_icon.png',
+          'countries': 'country_icon.png',
+          'toplists': 'toplist_icon.png',
+          'listeners': 'listeners_icon.png'
+        } %}
+        
+        {% for index in indices %}
+          <li class="nav-item">
+            <a class="nav-link" href="/{{ index }}">
+              <img 
+                src="{{ url_for('static', filename=icons[index]) }}" 
+                alt="{{ index }} icon"
+                style="height: 20px; width: 20px; margin-right: 5px;"
+              >
+              {{ index|capitalize }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </nav>
+  
+  <!-- Contenu principal -->
+  <main class="container mt-4">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer gris foncé, fixé en bas -->
+  <footer class="fixed-bottom p-3 text-white" style="background-color: #333;">
+    <div class="container d-flex justify-content-between">
+      <div>
+        <p class="mb-0">LECOIN Nathan & MORANDI Louka</p>
+      </div>
+      <div>
+        <p class="mb-0">DSIA-4201C - E4 - 2025</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,5 +1,0 @@
-dash==2.18.2
-pandas  
-plotly==6.0.0
-elasticseach
-pymongo
