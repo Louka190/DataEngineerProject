@@ -9,7 +9,7 @@ elasticsearch = "*"
 pandas = "*"
 pymongo = "*"
 plotly = "*"
-dash = "2.18.2"
+matplotlib = "*"
 
 [dev-packages]
 ipykernel = "*"

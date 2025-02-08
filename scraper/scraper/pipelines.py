@@ -37,23 +37,59 @@ class SpotifyPipeline:
             pass  
 
     def process_item(self, item, spider):
+        def convert_to_int(value):
+            """ Convertit une valeur en entier après suppression des virgules. """
+            try:
+                return int(value.replace(",", "")) if value else 0
+            except ValueError:
+                logging.warning(f"Impossible de convertir {value} en entier.")
+                return 0
+
+        def format_large_number(value):
+            """ Formate un nombre entier avec des espaces pour améliorer la lisibilité. """
+            return "{:,}".format(value).replace(",", " ")  
+
         if spider.name == "artists":
             if all(item.get(field) is not None for field in ['Artist', 'Total_Streams', 'As_Lead', 'Solo', 'As_Feature', 'Daily_Streams', 'Daily_As_Lead', 'Daily_As_Feature', 'Tracks', 'Tracks_As_Lead', 'Tracks_Solo', 'Tracks_As_Feature']):
-                self.writer.writerow([item.get('Artist'), item.get('Total_Streams'), item.get('As_Lead'), item.get('Solo'), item.get('As_Feature'), item.get('Daily_Streams'), item.get('Daily_As_Lead'), item.get('Daily_As_Feature'), item.get('Tracks'), item.get('Tracks_As_Lead'), item.get('Tracks_Solo'), item.get('Tracks_As_Feature')])
+                self.writer.writerow([
+                    item.get('Artist'),
+                    format_large_number(convert_to_int(item.get('Total_Streams'))),
+                    format_large_number(convert_to_int(item.get('As_Lead'))),
+                    format_large_number(convert_to_int(item.get('Solo'))),
+                    format_large_number(convert_to_int(item.get('As_Feature'))),
+                    format_large_number(convert_to_int(item.get('Daily_Streams'))),
+                    format_large_number(convert_to_int(item.get('Daily_As_Lead'))),
+                    format_large_number(convert_to_int(item.get('Daily_As_Feature'))),
+                    format_large_number(convert_to_int(item.get('Tracks'))),
+                    format_large_number(convert_to_int(item.get('Tracks_As_Lead'))),
+                    format_large_number(convert_to_int(item.get('Tracks_Solo'))),
+                    format_large_number(convert_to_int(item.get('Tracks_As_Feature')))
+                ])
                 logging.debug(f"Item ajouté : {item}")
             else:
                 logging.debug(f"Item ignoré : {item} (valeurs manquantes)")
 
         elif spider.name == 'countries':
             if all(item.get(field) is not None for field in ['Country', 'Pos', 'Artist_and_Title', 'Streams', 'Total']):
-                self.writer.writerow([item.get('Country'), item.get('Pos'), item.get('Artist_and_Title'), item.get('Streams'), item.get('Total')])
+                self.writer.writerow([
+                    item.get('Country'),
+                    convert_to_int(item.get('Pos')),
+                    item.get('Artist_and_Title'),
+                    format_large_number(convert_to_int(item.get('Streams'))),
+                    format_large_number(convert_to_int(item.get('Total')))
+                ])
                 logging.debug(f"Item ajouté : {item}")
             else:
                 logging.debug(f"Item ignoré : {item} (valeurs manquantes)")
             
         elif spider.name == 'listeners':
             if all(item.get(field) is not None for field in ['Artist', 'Listeners', 'Peak', 'Peak_Listeners']):
-                self.writer.writerow([item.get('Artist'), item.get('Listeners'), item.get('Peak'), item.get('Peak_Listeners')])
+                self.writer.writerow([
+                    item.get('Artist'),
+                    convert_to_int(item.get('Listeners')),
+                    convert_to_int(item.get('Peak')),
+                    convert_to_int(item.get('Peak_Listeners'))
+                ])
                 logging.debug(f"Item ajouté : {item}")
             else:
                 logging.debug(f"Item ignoré : {item} (valeurs manquantes)")

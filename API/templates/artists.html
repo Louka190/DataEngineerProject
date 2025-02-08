@@ -1,40 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="container">
-    <h2>Recherche d'artistes</h2>
-    <!-- Formulaire -->
-    <form method="POST" class="mb-4">
-      <div class="form-group">
-        <label for="artistName">Nom de l'artiste</label>
-        <input 
-          type="text" 
-          class="form-control" 
-          id="artistName" 
-          name="artist_name" 
-          placeholder="Entrez le nom de l'artiste..."
-          value="{{ searched_name if searched_name else '' }}"
-        >
-      </div>
-      <button type="submit" class="btn btn-primary">Rechercher</button>
-    </form>
-
-    {% if results %}
-      <h4>Résultats</h4>
-      {% for hit in results %}
-        <div class="border p-3 mb-3">
-          <!-- Si l'info est dans _source.Artist -->
-          <p>
-            <strong>Nom : </strong>
-            <!-- Lien pour voir les détails de l'artiste en cliquant -->
-            <a href="{{ url_for('show_artist_details', doc_id=hit._id) }}">
-              {{ hit._source.Artist if hit._source.Artist else 'Artiste inconnu' }}
-            </a>
-          </p>
+  <div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="w-50">
+      <h2 class="text-center">Recherche d'Artistes</h2>
+      <!-- Formulaire -->
+      <form method="POST" class="mb-4">
+        <div class="form-group">
+          <label for="artistName">Nom de l'artiste</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="artistName" 
+            name="artist_name" 
+            placeholder="Entrez le nom de l'artiste..."
+            value="{{ searched_name if searched_name else '' }}"
+          >
         </div>
-      {% endfor %}
-    {% elif searched_name %}
-      <p>Aucun artiste trouvé pour "{{ searched_name }}".</p>
-    {% endif %}
+        <button type="submit" class="btn btn-primary btn-block">Rechercher</button>
+      </form>
+
+      {% if results %}
+        <h4>Résultats</h4>
+        {% for hit in results %}
+          <div class="border p-3 mb-3">
+            <!-- Si l'info est dans _source.Artist -->
+            <p>
+              <strong>Nom : </strong>
+              <!-- Lien pour voir les détails de l'artiste en cliquant -->
+              <a href="{{ url_for('show_artist_details', doc_id=hit._id) }}">
+                {{ hit._source.Artist if hit._source.Artist else 'Artiste inconnu' }}
+              </a>
+            </p>
+          </div>
+        {% endfor %}
+      {% elif searched_name %}
+        <p>Aucun artiste trouvé pour "{{ searched_name }}".</p>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}
