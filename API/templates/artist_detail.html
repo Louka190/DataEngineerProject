@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Détails de l'artiste</h2>
+  
+  {% if doc._source %}
+    <!-- On utilise une card Bootstrap pour un affichage plus propre -->
+    <div class="card">
+      <div class="card-body">
+        <!-- Titre : Nom de l'artiste -->
+        <h3 class="card-title">
+          {{ doc._source.Artist if doc._source.Artist else 'Artiste inconnu' }}
+        </h3>
+        <hr>
+        <!-- Liste des autres champs, sauf Artist, en dessous -->
+        <ul class="list-unstyled">
+          {% for field_name, field_value in doc._source.items() %}
+            {% if field_name != 'Artist' %}
+              <li class="mb-2">
+                <strong>{{ field_name|replace('_',' ') }} :</strong> 
+                {{ field_value }}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% else %}
+    <p>Aucune information disponible pour cet artiste.</p>
+  {% endif %}
+</div>
+{% endblock %}

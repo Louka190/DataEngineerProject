@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center">Les 40 artistes les plus écoutés</h2>
+
+  {% if image_uri %}
+    <div class="text-center">
+      <img src="{{ image_uri }}" alt="Graphique des listeners" class="img-fluid">
+    </div>
+  {% else %}
+    <p class="text-center text-danger">Aucun graphique disponible. Vérifiez la récupération des données.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

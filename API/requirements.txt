@@ -1,0 +1,5 @@
+Flask
+Werkzeug<3.0
+elasticsearch
+pandas
+matplotlib
