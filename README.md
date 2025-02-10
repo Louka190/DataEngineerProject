@@ -19,6 +19,7 @@ L'objectif principal de ce projet est de créer une application de web scraping 
 - [Developer Guide](#developer-guide)
 - [Techno utilisées](#Techno-utilisées)
 - [Architecture du code](#Architecture-du-code)
+- [Rapport d'Analyse](#rapport-d-analyse)
 - [Data](#data)
 - [Auteurs](#auteurs)
 - [Contact](#contact)
@@ -73,6 +74,7 @@ Une fois le service flask en marche, vous pouvez cliquer sur le port 5050:5050 o
 
 ![Description de l'image](assets/docker-screen-readme.png)
 
+<br>
 
 ## Developer Guide
 
@@ -161,6 +163,7 @@ Cela démarre :
 - Elasticsearch (exploration de données)
 - Docker (déploiement du code)  
 
+<br>
 
 ## Architecture du code
 
@@ -202,12 +205,58 @@ flowchart TB
 
     
 ```
+<br>
 
+## Rapport d'Analyse 
+
+ L'interface web développée avec Flask et mise en valeur par Bootstrap propose plusieurs sections dédiées aux artistes, aux classements par pays, aux tops globaux et aux auditeurs uniques. 
+
+### Homepage
+
+La page d'accueil de notre application a été pensée pour offrir une expérience utilisateur fluide, intuitive et esthétiquement agréable. Dès son arrivée, l'utilisateur découvre une interface moderne et épurée, mettant en avant les fonctionnalités clés pour explorer et analyser les tendances musicales de Spotify. L’ensemble du design a été soigneusement élaboré et intégré, garantissant une identité visuelle harmonieuse et une immersion optimale.
+
+
+![Image](assets/homepage_flask.png)
+
+<br>
+
+### Artists 
+
+La page Artists permet d'explorer en détail les données des 3 000 artistes les plus écoutés sur Spotify. Grâce à une barre de recherche intuitive, l'utilisateur peut facilement retrouver un artiste spécifique et accéder à ses statistiques de streaming, lui offrant ainsi une vision claire de son influence et de sa popularité sur la plateforme. Cette interface épurée et interactive facilite la navigation et l’analyse des tendances musicales.
+
+![Image](assets/artists_flask.png)
+
+<br>
+
+### Countries
+
+La page Countries offre une exploration interactive des tendances musicales à travers le monde. Grâce à un menu déroulant intuitif, l'utilisateur peut sélectionner un pays et accéder instantanément aux classements des morceaux les plus écoutés. Cette interface simplifiée permet d’analyser les préférences musicales propres à chaque région et de découvrir les artistes les plus populaires à l’échelle internationale.
+
+![Image](assets/countries_flask.png)
+
+<br>
+
+### Toplists 
+
+La page Toplists permet d’explorer les morceaux les plus streamés sur Spotify au fil des années. Grâce à un menu déroulant, l’utilisateur peut sélectionner une année spécifique et accéder instantanément au classement des titres les plus écoutés. Cette fonctionnalité offre une vue d’ensemble des tendances musicales de chaque époque, mettant en lumière l’évolution des genres et des artistes dominants sur la plateforme.
+
+![Image](assets/toplists_flask.png)
+
+<br>
+
+### Listeners 
+
+La page Listeners permet d’afficher en temps réel les artistes les plus écoutés sur Spotify. Grâce à un histogramme mis à jour régulièrement, l’utilisateur peut consulter le classement des artistes en fonction de leur nombre d’auditeurs mensuels. Cette fonctionnalité offre une vision instantanée des tendances musicales actuelles, sans suivi historique des écoutes.
+
+![Image](assets/listeners_flask.png)
+
+<br>
 
 ## Data 
 
 Les données utilisées dans ce projet proviennent de kworb.net, un site spécialisé dans l'agrégation des performances des artistes et des morceaux sur diverses plateformes musicales, dont Spotify. Kworb.net collecte des informations détaillées sur les classements, les streams, et d'autres statistiques relatives à la popularité des morceaux à l'échelle mondiale. Ces données sont mises à jour régulièrement, offrant ainsi un aperçu précis et actualisé des tendances musicales globales.
 
+<br>
 
 ### Auteurs
 
@@ -226,4 +275,6 @@ Nathan LECOIN
 nathan.lecoin@edu.esiee.fr
 
 
-<p align="center">(<a href="#readme-top">Haut de la page</a>)</p>
+<br>
+
+<p align="center"><a href="#top">⬆ Retour en haut</a></p>
