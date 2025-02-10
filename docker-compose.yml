@@ -110,7 +110,7 @@ services:
       - ELASTICSEARCH_HOST=http://elastic:9200
     volumes:
       - ./API:/app  
-    command: sh -c "sleep 10 && python app.py" 
+    command: sh -c "sleep 15 && python app.py" 
 
 volumes:
   mongodb_data:
