@@ -177,6 +177,65 @@ def listeners():
 
     return render_template('listeners.html', title="Spotify Scraper", indices=indices, image_uri=image_uri)
 
+@app.route('/toplists', methods=['GET', 'POST'])
+def toplists():
+    """
+    Recherche et affichage des données pour une catégorie (Category) spécifique 
+    dans l'index 'toplists'.
+    """
+    results = []
+    searched_category = None
+
+    # Requête d'agrégation pour récupérer la liste unique des Category
+    category_query = {
+        "size": 0,
+        "aggs": {
+            "unique_categories": {
+                "terms": {
+                    "field": "Category.keyword",  # Utilisation du champ non analysé
+                    "size": 200
+                }
+            }
+        }
+    }
+    category_response = es.search(index='toplists', body=category_query)
+    
+    # On trie la liste pour un affichage propre dans le <select>
+    categories = sorted([bucket['key'] for bucket in category_response['aggregations']['unique_categories']['buckets']])
+
+    if request.method == 'POST':
+        # Récupération de la catégorie sélectionnée depuis le formulaire
+        searched_category = request.form.get('category_name')
+
+        if searched_category:
+            # Requête Elasticsearch avec une correspondance exacte
+            query = {
+                "query": {
+                    "term": {  # Utilisation de "term" pour une correspondance exacte
+                        "Category.keyword": searched_category
+                    }
+                },
+                "size": 50,
+                "sort": [
+                    {"Position": {"order": "asc"}}  # Tri par Position
+                ]
+            }
+            response = es.search(index='toplists', body=query)
+            results = response.get('hits', {}).get('hits', [])
+
+            # Debug temporaire pour vérifier la réponse
+            print("DEBUG - Résultats Elasticsearch :", results)
+
+    return render_template(
+        'toplists.html',
+        title="Spotify Scraper",
+        indices=indices,            # Pour la navbar
+        categories=categories,      # Liste de toutes les Category
+        results=results,            # Résultats de la requête
+        searched_category=searched_category  # Catégorie choisie
+    )
+
+
 
 @app.route('/<index_name>')
 def show_index(index_name):
