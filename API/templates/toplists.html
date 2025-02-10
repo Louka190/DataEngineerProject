@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-4">
-  <h2 class="text-center">Charts par période</h2>
+  <h2 class="text-center">Charts par Catégorie</h2>
   
   <!-- Formulaire avec menu déroulant -->
   <form method="POST" class="mb-4">
@@ -54,6 +54,18 @@
         {% endfor %}
       </tbody>
     </table>
+
+    <!-- Pagination -->
+    <nav class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% for page in range(1, total_pages + 1) %}
+          <li class="page-item {% if page == current_page %}active{% endif %}">
+            <a class="page-link" href="?category_name={{ searched_category }}&page={{ page }}">{{ page }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
   {% elif searched_category %}
     <p class="text-center text-danger">Aucun résultat trouvé pour "{{ searched_category }}".</p>
   {% endif %}

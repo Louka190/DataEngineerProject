@@ -181,10 +181,13 @@ def listeners():
 def toplists():
     """
     Recherche et affichage des données pour une catégorie (Category) spécifique 
-    dans l'index 'toplists'.
+    dans l'index 'toplists', avec pagination limitée à 20 pages.
     """
     results = []
     searched_category = None
+    page = int(request.args.get('page', 1))  # Récupération du numéro de page (par défaut 1)
+    offset = (page - 1) * 50                 # Calcul de l'offset basé sur la page
+    total_results = 0                         # Initialisation du nombre total de résultats
 
     # Requête d'agrégation pour récupérer la liste unique des Category
     category_query = {
@@ -192,49 +195,52 @@ def toplists():
         "aggs": {
             "unique_categories": {
                 "terms": {
-                    "field": "Category.keyword",  # Utilisation du champ non analysé
+                    "field": "Category.keyword",
                     "size": 200
                 }
             }
         }
     }
     category_response = es.search(index='toplists', body=category_query)
-    
-    # On trie la liste pour un affichage propre dans le <select>
     categories = sorted([bucket['key'] for bucket in category_response['aggregations']['unique_categories']['buckets']])
 
     if request.method == 'POST':
-        # Récupération de la catégorie sélectionnée depuis le formulaire
         searched_category = request.form.get('category_name')
+    else:
+        searched_category = request.args.get('category_name')
 
-        if searched_category:
-            # Requête Elasticsearch avec une correspondance exacte
-            query = {
-                "query": {
-                    "term": {  # Utilisation de "term" pour une correspondance exacte
-                        "Category.keyword": searched_category
-                    }
-                },
-                "size": 50,
-                "sort": [
-                    {"Position": {"order": "asc"}}  # Tri par Position
-                ]
-            }
-            response = es.search(index='toplists', body=query)
-            results = response.get('hits', {}).get('hits', [])
+    if searched_category:
+        # Requête Elasticsearch avec pagination et récupération du total de résultats
+        query = {
+            "query": {
+                "term": {
+                    "Category.keyword": searched_category
+                }
+            },
+            "from": offset,
+            "size": 50,
+            "sort": [
+                {"Position": {"order": "asc"}}
+            ],
+            "track_total_hits": True  # Permet de récupérer le nombre total de résultats
+        }
+        response = es.search(index='toplists', body=query)
+        results = response.get('hits', {}).get('hits', [])
+        total_results = response.get('hits', {}).get('total', {}).get('value', 0)  # Nombre total de résultats
 
-            # Debug temporaire pour vérifier la réponse
-            print("DEBUG - Résultats Elasticsearch :", results)
+    # Calcul du nombre total de pages, limité à 20
+    total_pages = min((total_results // 50) + (1 if total_results % 50 > 0 else 0), 20)
 
     return render_template(
         'toplists.html',
         title="Spotify Scraper",
-        indices=indices,            # Pour la navbar
-        categories=categories,      # Liste de toutes les Category
-        results=results,            # Résultats de la requête
-        searched_category=searched_category  # Catégorie choisie
+        indices=indices,
+        categories=categories,
+        results=results,
+        searched_category=searched_category,
+        current_page=page,
+        total_pages=total_pages
     )
-
 
 
 @app.route('/<index_name>')
