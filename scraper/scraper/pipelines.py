@@ -71,17 +71,36 @@ class SpotifyPipeline:
 
         elif spider.name == 'countries':
             if all(item.get(field) is not None for field in ['Country', 'Pos', 'Artist_and_Title', 'Streams', 'Total']):
+                import re
+                
+                # Vérifie si Artist_and_Title est une liste et la transforme en string
+                artist_title = item.get('Artist_and_Title')
+                if isinstance(artist_title, list):
+                    artist_title = ', '.join(artist_title)  # Concatène les éléments de la liste
+
+                # Nettoyage de la chaîne de caractères
+                artist_title = re.sub(r'[\[\]"]', '', artist_title)  # Supprime les crochets et guillemets
+
+                # Séparation des artistes et du titre
+                parts = artist_title.split(', ')
+                if len(parts) >= 2:
+                    artist = parts[0]  # Le premier élément est l'artiste principal
+                    title = parts[1]  # Le deuxième élément est le titre
+                    features = ', '.join(parts[2:]) if len(parts) > 2 else ''  # Le reste correspond aux featurings
+                    artist_title = f"{artist} - {title} {'ft. ' + features if features else ''}".strip()
+
                 self.writer.writerow([
                     item.get('Country'),
                     convert_to_int(item.get('Pos')),
-                    item.get('Artist_and_Title'),
+                    artist_title,
                     format_large_number(convert_to_int(item.get('Streams'))),
                     format_large_number(convert_to_int(item.get('Total')))
                 ])
                 logging.debug(f"Item ajouté : {item}")
             else:
                 logging.debug(f"Item ignoré : {item} (valeurs manquantes)")
-            
+
+        
         elif spider.name == 'listeners':
             if all(item.get(field) is not None for field in ['Artist', 'Listeners', 'Peak', 'Peak_Listeners']):
                 self.writer.writerow([
@@ -94,9 +113,15 @@ class SpotifyPipeline:
             else:
                 logging.debug(f"Item ignoré : {item} (valeurs manquantes)")
 
-        elif spider.name == 'toplists':
+        if spider.name == "toplists":
             if all(item.get(field) is not None for field in ['Category', 'Position', 'Artist_and_Title', 'Streams', 'Daily']):
-                self.writer.writerow([item.get('Category'), item.get('Position'), item.get('Artist_and_Title'), item.get('Streams'), item.get('Daily')])
+                self.writer.writerow([
+                    item.get('Category'),
+                    convert_to_int(item.get('Position')),
+                    item.get('Artist_and_Title'),
+                    format_large_number(convert_to_int(item.get('Streams'))),
+                    format_large_number(convert_to_int(item.get('Daily')))
+                ])
                 logging.debug(f"Item ajouté : {item}")
             else:
                 logging.debug(f"Item ignoré : {item} (valeurs manquantes)")

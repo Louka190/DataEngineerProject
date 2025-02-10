@@ -24,8 +24,8 @@ def home():
     Page de présentation (aucun appel à Elasticsearch).
     """
     description = (
-        "Bienvenue sur le dashboard de Spotify Scraper.<br>"
-        "Utilisez la barre de navigation ci-dessus pour accéder aux données de chaque index."
+        "Découvrez les statistiques de vos artistes préférés et les tendances musicales par année et par pays.<br>"
+        "<br> Utilisez la barre de navigation ci-dessus pour accéder aux données de chaque onglet."
     )
     return render_template('index.html', title="Spotify Scraper", description=description, indices=indices)
 

@@ -6,31 +6,105 @@
   <!-- Inclusion de Bootstrap pour un style rapide -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    /* On ajoute un peu de marge en bas du main 
-       pour éviter que le contenu ne passe sous le footer fixe */
+    /* On ajoute un peu de marge en bas du main pour éviter que le contenu ne passe sous le footer fixe */
     main {
       margin-bottom: 80px;
+    }
+    
+    /* Ajout de l'image de fond uniquement pour la page d'accueil */
+    {% if request.path == '/' %}
+    body {
+      background: url("{{ url_for('static', filename='homepage.jpg') }}") no-repeat center center fixed;
+      background-size: cover;
+      animation: moveBackground 20s infinite alternate ease-in-out;
+    }
+
+    @keyframes moveBackground {
+      0% { background-position: center center; }
+      100% { background-position: center top; }
+    }
+    {% endif %}
+
+    /* Amélioration du header */
+    header {
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 10px 0;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    header img {
+      max-height: 90px;
+      margin-bottom: -10px;
+    }
+
+    /* Navbar améliorée */
+    .navbar {
+      font-size: 1.2rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-link {
+      color: white !important;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      transition: color 0.3s ease-in-out;
+    }
+
+    .nav-link:hover {
+      color: #1DB954 !important;
+      font-weight: bold;
+    }
+
+    /* Effet glassmorphism pour la boîte de présentation */
+    .presentation-box {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+      max-width: 600px;
+      text-align: center;
+      margin: auto;
+      color: white;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* Footer amélioré */
+    footer {
+      background-color: #222;
+      padding: 15px 0;
+      font-size: 0.9rem;
+      text-align: center;
+      color: #fff;
+      transition: background 0.3s ease-in-out;
+    }
+
+    footer:hover {
+      background-color: #1DB954;
+      color: #000;
     }
   </style>
 </head>
 <body>
   <!-- Header avec fond noir -->
-  <header class="p-3" style="background-color: #000;">
+  <header class="p-3">
     <div class="container d-flex justify-content-center">
       <!-- Logo centré, devenu cliquable vers la page d'accueil -->
       <a href="{{ url_for('home') }}">
         <img 
           src="{{ url_for('static', filename='Spotify-Scraper.png') }}" 
           alt="Logo" 
-          class="img-fluid" 
-          style="max-height: 100px;"
+          class="img-fluid"
         >
       </a>
     </div>
   </header>
   
   <!-- Navbar claire, texte agrandi -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 1.2rem;">
+  <nav class="navbar navbar-expand-lg">
     <div class="container">
       <!-- Onglets répartis sur toute la largeur -->
       <ul class="navbar-nav nav-justified w-100">
@@ -63,7 +137,7 @@
   </main>
 
   <!-- Footer gris foncé, fixé en bas -->
-  <footer class="fixed-bottom p-3 text-white" style="background-color: #333;">
+  <footer class="fixed-bottom p-3 text-white">
     <div class="container d-flex justify-content-between">
       <div>
         <p class="mb-0">LECOIN Nathan & MORANDI Louka</p>
